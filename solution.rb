@@ -1,4 +1,5 @@
 require_relative 'wl'
+require 'json'
 
 def word_ladder_neighbours(word)
     patterns = []
@@ -13,12 +14,27 @@ def word_ladder_neighbours(word)
     result
 end
 
-def find_word_with_n_neighbours(n)
-    result = FOUR_LETTER_WORDS.select{|w|
-        word_ladder_neighbours(w).size == n
+def process_data_once
+    tmp = {}
+    FOUR_LETTER_WORDS.each{|w|
+        tmp[w] = word_ladder_neighbours(w)
     }
-    result
+    File.open("./result.json", "w") do |f|
+        f.write(JSON.pretty_generate(tmp))
+    end
 end
+
+def find_word_with_n_neighbours(n)
+    if !File.file?("result.json")
+        puts "Processing data"
+        process_data_once
+    end
+    puts "Reading stuff from file now"
+    data = JSON.parse(File.read("./result.json"))
+    data.select{ |key, value| value.size == n}.keys
+end
+
+
 
 def find_words_n_degrees_away(word, n)
     result = []
