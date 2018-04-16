@@ -35,6 +35,6 @@ def find_words_n_degrees_away(word, n)
     result.uniq
 end
 
-# print word_ladder_neighbours("aloe")
-print find_word_with_n_neighbours(33)
+# print word_ladder_neighbours("pall")
+puts find_word_with_n_neighbours(33) # the word is care
 # print find_words_n_degrees_away("aloe", 3)
